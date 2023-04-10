@@ -1,0 +1,49 @@
+# IMPLEMENT A CLIENT SERVER ARCHITECTURE USING MYSQL DATABASE MANAGEMENT SYSTEM (DBMS)
+
+Create two instances for 2 virtual machine naming one "Server" and the other "Client-server"
+
+Connect to your virtual machine with your ssh key
+
+on server side `sudo apt update`
+
+Install mysql server-side software with `sudo apt install mysql-server`
+
+on client-side `sudo apt update`
+
+Install mysql client-side software with `sudo apt install mysql-client`
+
+On server-side, `sudo systemctl enable mysql`
+
+On server-side, add port 3306 to inbound rule with client-side IP address
+
+![Inbound rule](./images/inbound-rule.PNG)
+
+`sudo mysql secure_installation `
+set root user password
+
+`sudo mysql`
+
+Create user with password for the user: `CREATE USER 'User_name'@'%' IDENTIFIED WITH mysql_native_password BY 'password';`
+
+Create database: `CREATE DATABASE database_name;`
+
+Grant all privileges to user on database created: `GRANT ALL PRIVILEGES ON database_name.* TO 'User_name'@'%';`
+
+To synchonize the changes made to mysql `FLUSH PRIVILEGES`
+
+configure MySQL server to allow connections from remote hosts:`sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf`
+
+![Configuration](./images/Bind-address.PNG)
+
+Change bind address to 0.0.0.0, 0.0.0.0 is used for all Ip address
+
+Restart Msql: `sudo systemctl restart mysql`
+
+Go to Client-side vm, connect remotely to mysql server Database Engine without using SSH
+`sudo mysql -u user_name -h servers ip address`
+
+![Mysql-database](./images/connect-mysql-database.PNG)
+
+Check that you have successfully connected to a remote MySQL server and can perform SQL queries: `show databases`
+![Show database](./images/show-database.PNG)
+
